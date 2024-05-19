@@ -10,13 +10,6 @@ class State(BaseModel):
         name (str): The name of the state.
     """
 
-    def __init__(self, name):
-        """
-        Initializes a new State instance.
-
-        Args:
-            name (str): The name of the state.
-        """
-        super().__init__()
-        self.name = name
-
+    def __init__(self, **kwargs):
+        """Initialize a new State instance."""
+        super().__init__(**kwargs)

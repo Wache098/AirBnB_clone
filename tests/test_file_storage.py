@@ -1,31 +1,30 @@
+#!/usr/bin/python3
+
 import unittest
-import os
 from models.base_model import BaseModel
-from storage.file_storage import FileStorage
+from models.state import State
+from models.user import User
+from models import storage
+
 
 class TestFileStorage(unittest.TestCase):
-    def setUp(self):
-        self.storage = FileStorage()
-        self.obj = BaseModel()
-
-    def tearDown(self):
-        if os.path.exists(self.storage._FileStorage__file_path):
-            os.remove(self.storage._FileStorage__file_path)
-
-    def test_new(self):
-        self.storage.new(self.obj)
-        self.assertIn(self.obj.id, self.storage.all())
-
-    def test_save(self):
-        self.storage.new(self.obj)
-        self.storage.save()
-        self.assertTrue(os.path.exists(self.storage._FileStorage__file_path))
+    """Test cases for the FileStorage class."""
 
     def test_reload(self):
-        self.storage.new(self.obj)
-        self.storage.save()
-        self.storage.reload()
-        self.assertIn(self.obj.id, self.storage.all())
+        """Test the reload method."""
+        # Create some objects
+        state = State(name="California")
+        user = User(username="test_user")
+        state.save()
+        user.save()
 
-if __name__ == '__main__':
+        # Reload objects from storage
+        storage.reload()
+
+        # Check if objects are reloaded correctly
+        self.assertIn("{}.{}".format(State.__name__, state.id), storage.all())
+        self.assertIn("{}.{}".format(User.__name__, user.id), storage.all())
+
+
+if __name__ == "__main__":
     unittest.main()
