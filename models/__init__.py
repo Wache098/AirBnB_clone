@@ -1,12 +1,10 @@
 #!/usr/bin/python3
 
 
-# models/__init__.py
+"""Initializes the package."""
 
-# This file marks the 'models' directory as a Python package.
-# You can also import classes here if needed for convenience.
 
-from .base_model import BaseModel
-from .user import User
-from .state import State
+from models.engine.file_storage import FileStorage
 
+storage = FileStorage()
+storage.reload()
